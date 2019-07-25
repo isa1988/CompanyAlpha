@@ -29,5 +29,10 @@ namespace CompanyAlpha.DataInfo
         public bool IsEditUser { get; set; }
 
         public List<UserInfo> UserList { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

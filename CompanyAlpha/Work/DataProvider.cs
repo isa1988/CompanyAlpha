@@ -6,7 +6,7 @@ namespace CompanyAlpha.Work
     /// <summary>
     /// Работа с данными
     /// </summary>
-    class DataProvider : IDataProvider
+    public class DataProvider : IDataProvider
     {
         /// <summary>
         /// Работа с базой
@@ -16,6 +16,11 @@ namespace CompanyAlpha.Work
         private UserWork user;
         private RoomWork room;
         private OrderRoomWork orderRoom;
+
+        public DataProvider()
+        {
+            this.dataContent = new DataContent();
+        }
 
         /// <summary>
         /// Роли

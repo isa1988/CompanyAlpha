@@ -7,7 +7,7 @@ namespace CompanyAlpha.Contract
     /// <summary>
     /// Операции над заказами переговорных
     /// </summary>
-    interface IOrderRoomRepository
+    public interface IOrderRoomRepository
     {
         /// <summary>
         /// Дабавить бронь на комнату

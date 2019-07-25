@@ -10,7 +10,7 @@ namespace CompanyAlpha.Work
     /// <summary>
     /// Операции над комнатами
     /// </summary>
-    class RoomWork : IRoomRepository
+    public class RoomWork : IRoomRepository
     {
         private DataContent dataContent = null;
         private Room room = null;

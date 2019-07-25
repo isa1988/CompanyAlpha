@@ -9,7 +9,7 @@ namespace CompanyAlpha.Contract
     /// <summary>
     /// Операции с данными
     /// </summary>
-    interface IDataProvider
+    public interface IDataProvider : IDisposable
     {
         /// <summary>
         /// Роли

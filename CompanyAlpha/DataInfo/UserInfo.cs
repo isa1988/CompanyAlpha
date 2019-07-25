@@ -85,5 +85,13 @@ namespace CompanyAlpha.DataInfo
         /// Файл
         /// </summary>
         public byte[] File { get; set; }
+
+        public override string ToString()
+        {
+            if (SurName != string.Empty || Name != string.Empty || MiddleName != string.Empty)
+                return SurName + " " + Name + " " + MiddleName;
+            else
+                return Login;
+        }
     }
 }

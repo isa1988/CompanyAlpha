@@ -11,7 +11,7 @@ namespace CompanyAlpha.Work
     /// <summary>
     /// Операции над бронированием комнатам
     /// </summary>
-    class OrderRoomWork : IOrderRoomRepository
+    public class OrderRoomWork : IOrderRoomRepository
     {
         private DataContent dataContent = null;
         private OrderRoom orderRoom = null;
@@ -147,8 +147,8 @@ namespace CompanyAlpha.Work
                 throw new ArgumentException("Не указан пользователь");
             if (room == null)
                 throw new ArgumentException("Не указана комната");
-            if (status == null)
-                throw new ArgumentException("Не указан статус");
+            //if (status == null)
+               // throw new ArgumentException("Не указан статус");
             if (dataContent.OrderRooms.
                     Count(x => (x.Start <= start && x.End >= start && x.RoomID == room.ID && x.Status == 1) ||
                                (x.Start <= end && x.End >= end && x.RoomID == room.ID && x.Status == 1)) > 0)

@@ -1,11 +1,12 @@
-﻿using CompanyAlpha.DataInfo;
+﻿using System.Collections.Generic;
+using CompanyAlpha.DataInfo;
 
 namespace CompanyAlpha.Contract
 {
     /// <summary>
     /// Операции над пользователями
     /// </summary>
-    interface IUserRepository
+    public interface IUserRepository
     {
         /// <summary>
         /// Дабавить нового пользователя
@@ -17,14 +18,14 @@ namespace CompanyAlpha.Contract
         /// <param name="middleName">Отчество</param>
         /// <param name="role">Роль</param>
         /// <param name="file">Фото</param>
-        int Insert(string login, string password, string name, string surName, string middleName,
+        int Register(string login, string password, string name, string surName, string middleName,
                     RoleInfo role, byte[] file);
 
         /// <summary>
         /// Дабавить нового пользователя
         /// </summary>
         /// <param name="userInfo">Модель пользователя</param>
-        int Insert(UserInfo userInfo);
+        int Register(UserInfo userInfo);
 
         /// <summary>
         /// Редактирование пользователя
@@ -68,5 +69,19 @@ namespace CompanyAlpha.Contract
         /// <param name="login">Логин</param>
         /// <returns></returns>
         UserInfo GetUser(string login);
+
+        /// <summary>
+        /// Вход в систему
+        /// </summary>
+        /// <param name="login">Логин</param>
+        /// <param name="password">Пароль</param>
+        /// <returns></returns>
+        UserInfo CheckLoginIn(string login, string password);
+
+        /// <summary>
+        /// Получить список пользователей
+        /// </summary>
+        /// <returns></returns>
+        List<UserInfo> GetList();
     }
 }

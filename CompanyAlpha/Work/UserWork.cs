@@ -17,7 +17,7 @@ namespace CompanyAlpha.Work
     /// <summary>
     /// Операции над пользователями
     /// </summary>
-    class UserWork : IUserRepository
+    public class UserWork : IUserRepository
     {
         private DataContent dataContent = null;
         private User user = null;
@@ -49,7 +49,7 @@ namespace CompanyAlpha.Work
         /// <param name="middleName">Отчество</param>
         /// <param name="role">Роль</param>
         /// <param name="file">Фото</param>
-        public int Insert(string login, string password, string name, 
+        public int Register(string login, string password, string name, 
                           string surName, string middleName, RoleInfo role, byte[] file)
         {
             Check(login, password, string.Empty, string.Empty, true, role);
@@ -62,11 +62,11 @@ namespace CompanyAlpha.Work
         /// Дабавить нового пользователя
         /// </summary>
         /// <param name="userInfo">Модель пользователя</param>
-        public int Insert(UserInfo userInfo)
+        public int Register(UserInfo userInfo)
         {
             if (userInfo == null)
                 throw new ArgumentException("Вы не указали объект");
-            return Insert(userInfo.Login, userInfo.Password, userInfo.Name, userInfo.SurName, 
+            return Register(userInfo.Login, userInfo.Password, userInfo.Name, userInfo.SurName, 
                 userInfo.MiddleName, userInfo.RoleCur, userInfo.File);
         }
 
@@ -338,6 +338,56 @@ namespace CompanyAlpha.Work
                 throw new ArgumentException("Не найден объект");
             user.Password = PasswordEncryption(string.Empty);
             dataContent.SaveChanges();
+        }
+
+        // <summary>
+        /// Вход в систему
+        /// </summary>
+        /// <param name="login">Логин</param>
+        /// <param name="password">Пароль</param>
+        /// <returns></returns>
+        public UserInfo CheckLoginIn(string login, string password)
+        {
+            if (password == null) password = string.Empty;
+            password = PasswordEncryption(password);
+            User userTemp = dataContent.Users.FirstOrDefault(x => x.Login.ToLower() == login.ToLower() &&
+                                                                  x.Password == password);
+            if (userTemp == null) return null;
+            RoleWork roleTemp = new RoleWork(dataContent);
+            return new UserInfo
+            {
+                ID = userTemp.ID,
+                Name = userTemp.Name,
+                Password = userTemp.Password,
+                Login = userTemp.Login,
+                RoleID = userTemp.RoleID,
+                IsBlock = userTemp.IsBlock,
+                SurName = userTemp.SurName,
+                MiddleName = userTemp.MiddleName,
+                IsPhoto = userTemp.IsPhoto,
+                RoleCur = roleTemp.GetRole(userTemp.RoleID)
+            };
+        }
+
+
+        /// <summary>
+        /// Получить список пользователей
+        /// </summary>
+        /// <returns></returns>
+        public List<UserInfo> GetList()
+        {
+            return dataContent.Users.Select(x => new UserInfo
+            {
+                ID = x.ID,
+                Name = x.Name,
+                Password = x.Password,
+                Login = x.Login,
+                RoleID = x.RoleID,
+                IsBlock = x.IsBlock,
+                SurName = x.SurName,
+                MiddleName = x.MiddleName,
+                IsPhoto = x.IsPhoto,
+            }).ToList();
         }
     }
 

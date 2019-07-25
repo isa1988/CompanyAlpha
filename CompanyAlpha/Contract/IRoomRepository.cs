@@ -3,7 +3,10 @@ using System.Collections.Generic;
 
 namespace CompanyAlpha.Contract
 {
-    interface IRoomRepository
+    /// <summary>
+    /// Операции над комнатами
+    /// </summary>
+    public interface IRoomRepository
     {
         /// <summary>
         /// Добавить новую комнату

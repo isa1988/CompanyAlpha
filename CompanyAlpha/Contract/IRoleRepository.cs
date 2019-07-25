@@ -6,7 +6,7 @@ namespace CompanyAlpha.Contract
     /// <summary>
     /// Операции над ролями
     /// </summary>
-    interface IRoleRepository
+    public interface IRoleRepository
     {
         /// <summary>
         /// Добавление новой роли 
