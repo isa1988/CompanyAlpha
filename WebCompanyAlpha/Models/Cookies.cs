@@ -42,5 +42,24 @@ namespace WebCompanyAlpha.Models
                 context.Session["IsEditUser"] = value;
             }
         }
+
+
+        /// <summary>
+        /// Логин
+        /// </summary>
+        public static string Login
+        {
+            get
+            {
+                return "admin";
+                HttpContext context = HttpContext.Current;
+                return (string)context.Session["LoginUser"];
+            }
+            set
+            {
+                HttpContext context = HttpContext.Current;
+                context.Session["LoginUser"] = value;
+            }
+        }
     }
 }

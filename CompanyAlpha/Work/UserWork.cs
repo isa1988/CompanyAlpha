@@ -84,14 +84,14 @@ namespace CompanyAlpha.Work
         /// <param name="role">Роль</param>
         /// <param name="file">Фото</param>
         /// <param name="isDeleteFile">Удалить фото, если true то да</param>
-        public void Edit(int id, string password, string passwordReplay, string oldPassword, bool isPaswordChange, 
-                           string name, string surName, string middleName, RoleInfo role, byte[] file, bool isDeleteFile)
+        public void EditPersonalArea(int id, string password, string passwordReplay, string oldPassword, bool isPaswordChange, 
+                           string name, string surName, string middleName, byte[] file, bool isDeleteFile)
         {
             user = dataContent.Users.FirstOrDefault(x => x.ID == id);
             if (user == null)
                 throw new ArgumentException("Не найден объект");
-            Check(user.Login, password, passwordReplay, oldPassword, isPaswordChange, role);
-            SetValue(user.Login, isPaswordChange, password, passwordReplay, oldPassword, role, surName, name,
+            CheckNotRole(user.Login, password, passwordReplay, oldPassword, isPaswordChange);
+            SetValue(user.Login, isPaswordChange, password, passwordReplay, oldPassword, null, surName, name,
                 middleName, file, isDeleteFile, false);
         }
 
@@ -99,13 +99,13 @@ namespace CompanyAlpha.Work
         /// Редактирование пользователя
         /// </summary>
         /// <param name="userInfo">Модель пользователя</param>
-        public void Edit(UserInfo userInfo)
+        public void EditPersonalArea(UserInfo userInfo)
         {
             if (userInfo == null)
                 throw new ArgumentException("Вы не указали объект");
-            Edit(userInfo.ID, userInfo.Password, userInfo.PasswordReplay, userInfo.OldPassword,
+            EditPersonalArea(userInfo.ID, userInfo.Password, userInfo.PasswordReplay, userInfo.OldPassword,
                 userInfo.IsPaswordChange,
-                userInfo.Name, userInfo.SurName, userInfo.MiddleName, userInfo.RoleCur, userInfo.File,
+                userInfo.Name, userInfo.SurName, userInfo.MiddleName, userInfo.File,
                 userInfo.IsFileDelete);
         }
 
@@ -146,6 +146,41 @@ namespace CompanyAlpha.Work
             }
         }
 
+
+        /// <summary>
+        /// Проверка входных данных при создание/редактирование
+        /// </summary>
+        /// <param name="name">Наименование</param>
+        /// <param name="text">Текст статьи</param>
+        /// <param name="author">Автор</param>
+        /// <param name="headingID">Ссылка на рубрику</param>
+        private void CheckNotRole(string login, string password, string passwordReplay,
+            string oldPassword, bool isPaswordChange)
+        {
+            if (string.IsNullOrEmpty(login))
+                throw new ArgumentException("Не заполнен логин");
+            if (isPaswordChange)
+            {
+                if (user == null && string.IsNullOrEmpty(password))
+                    throw new ArgumentException("Не заполнен пароль");
+                if (user != null && user.Password != PasswordEncryption(oldPassword))
+                    throw new ArgumentException("Неверно указан старый пароль");
+                if (user != null && password != passwordReplay)
+                    throw new ArgumentException("Неверно указан новый пароль не совподает с повторным");
+            }
+            if (user == null)
+            {
+                if (dataContent.Users.Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase)))
+                    throw new ArgumentException("Текущее логин уже используется");
+            }
+            else
+            {
+                if (dataContent.Users.Any(x => x.Login.Equals(login, StringComparison.OrdinalIgnoreCase) &&
+                                               x.ID != user.ID))
+                    throw new ArgumentException("Текущее логин уже используется");
+            }
+        }
+
         /// <summary>
         /// Дабавить/редактировать
         /// </summary>
@@ -160,7 +195,7 @@ namespace CompanyAlpha.Work
         /// <param name="file">Файл</param>
         /// <param name="isDeleteFile">Удаление файла при редактирование</param>
         /// <param name="isNew">Новый</param>
-        
+
         private void SetValue(string login, bool isPaswordChange, string password, string passwordReplay, 
              string oldPassword, RoleInfo role, string surName, string name, string middleName,
              byte[] file, bool isDeleteFile, bool isNew = true)
@@ -176,12 +211,12 @@ namespace CompanyAlpha.Work
                 workForFiles = WorkForFiles.Edit;
             }
 
-            user.Login = login.Trim();
-            user.Password = PasswordEncryption(password);
-            user.RoleID = role.ID;
-            user.Name = name.Trim();
-            user.SurName = surName.Trim();
-            user.MiddleName = middleName.Trim();
+            user.Login = login.GetNotNull();
+            if (isPaswordChange) user.Password = PasswordEncryption(password.GetNotNull());
+            if (role != null) user.RoleID = role.ID;
+            user.Name = name.GetNotNull();
+            user.SurName = surName.GetNotNull();
+            user.MiddleName = middleName.GetNotNull();
 
             if (isNew) dataContent.Users.Add(user);
             dataContent.SaveChanges();
@@ -216,6 +251,7 @@ namespace CompanyAlpha.Work
         /// <param name="workForFile">Что нужно сделать</para>
         private void WorkForFile(string login, byte[] file, bool isDelete, WorkForFiles workForFile)
         {
+            login += ".jpg";
             Configuration cfg = null;
             if (System.Web.HttpContext.Current != null)
             {

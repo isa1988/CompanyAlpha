@@ -62,3 +62,8 @@ textarea {
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
 }
+
+.imgSmall{
+    width: 150px;
+    height: 200px;
+}

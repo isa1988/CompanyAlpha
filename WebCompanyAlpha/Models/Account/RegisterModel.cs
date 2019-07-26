@@ -70,10 +70,5 @@ namespace WebCompanyAlpha.Models.Account
         /// Отчество
         /// </summary>
         public string MiddleName { get; set; }
-
-        /// <summary>
-        /// Файл
-        /// </summary>
-        public byte[] File { get; set; }
     }
 }

@@ -115,7 +115,7 @@ namespace CompanyAlpha.Work
                 role = new Role();
             }
 
-            role.Name = name.Trim();
+            role.Name = name.GetNotNull();
             role.IsChangeRoom = isChangeRoom;
             role.IsEditUser = isEditUser;
 

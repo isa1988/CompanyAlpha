@@ -41,15 +41,14 @@ namespace CompanyAlpha.Contract
         /// <param name="role">Роль</param>
         /// <param name="file">Фото</param>
         /// <param name="isDeleteFile">Удалить фото, если true то да</param>
-        void Edit(int id, string password, string passwordReplay, string oldPassword, bool isPaswordChange,
-                  string name, string surName, string middleName,
-                    RoleInfo role, byte[] file, bool isDeleteFile);
+        void EditPersonalArea(int id, string password, string passwordReplay, string oldPassword, bool isPaswordChange,
+                  string name, string surName, string middleName, byte[] file, bool isDeleteFile);
 
         /// <summary>
         /// Редактирование пользователя
         /// </summary>
         /// <param name="userInfo">Модель пользователя</param>
-        void Edit(UserInfo userInfo);
+        void EditPersonalArea(UserInfo userInfo);
 
         /// <summary>
         /// Удадить пользователя

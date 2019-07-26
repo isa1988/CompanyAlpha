@@ -132,7 +132,7 @@ namespace CompanyAlpha.Work
                 room = new Room();
             }
 
-            room.Name = name.Trim();
+            room.Name = name.GetNotNull();
             room.SeatsCount = seatsCount;
             room.IsProjector = isProjector;
             room.IsMarkerBoard = isMarkerBoard;
