@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using CompanyAlpha.Contract;
 using CompanyAlpha.DataInfo;
@@ -199,37 +200,6 @@ namespace CompanyAlpha.Work
         }
 
         /// <summary>
-        /// Вернуть список комнат по фильтру
-        /// </summary>
-        /// <returns></returns>
-        /// <param name="seatsCount">Количество комнат от и более</param>
-        /// <param name="projector">Проектор</param>
-        /// <param name="markerBoard">Маркерная доска</param>
-        /// <param name="dateStart">Дата начала период</param>
-        /// <param name="dateEnd">Дата окончания периода</param>
-        /// <param name="statusFilter">Фильтр по статусу брони</param>
-        public List<OrderRoomInfo> GetRooms(int seatsCount, RoomIsProjector projector, 
-                RoomIsMarkerBoard markerBoard, DateTime dateStart, DateTime dateEnd, OrderRoomStatusFilter statusFilter)
-        {
-            RoomWork roomWork = new RoomWork(dataContent);
-            List<RoomInfo> roomList = roomWork.GetRooms(seatsCount, projector, markerBoard);
-            if (roomList == null || roomList.Count == 0) return new List<OrderRoomInfo>();
-            List<OrderRoomInfo> orderRoomList = dataContent.OrderRooms
-                .Where(x => x.Start >= dateStart && x.End <= dateEnd && roomList.Any(n => n.ID == x.ID)).
-                Select(m => new OrderRoomInfo
-                {
-                    ID = m.ID,
-                    Start = m.Start,
-                    End = m.End,
-                    RoomID = m.RoomID,
-                    MainDate = m.Start,
-                    UserID = m.UserID,
-                    Status = (OrderRoomStatus)m.Status
-                } ).ToList();
-            return orderRoomList;
-        }
-
-        /// <summary>
         /// Подтвердить бронь
         /// </summary>
         /// <param name="id">Идентификатор</param>
@@ -269,7 +239,8 @@ namespace CompanyAlpha.Work
         /// <param name="id">Идентификатор</param>
         public List<OrderRoomInfo> ChekReservationApproved(int id)
         {
-            return dataContent.OrderRooms.Where(x =>
+            orderRoom = dataContent.OrderRooms.FirstOrDefault(x => x.ID == id);
+            return dataContent.OrderRooms.Where(x => x.ID != id &&
                 (x.Start <= orderRoom.Start && x.End >= orderRoom.Start &&
                  x.RoomID == orderRoom.RoomID && x.Status == 0) ||
                 (x.Start <= orderRoom.End && x.End >= orderRoom.End &&
@@ -284,6 +255,48 @@ namespace CompanyAlpha.Work
                     UserID = m.UserID,
                     Status = (OrderRoomStatus)m.Status
                 }).ToList();
+        }
+
+        /// <summary>
+        /// Информация при удаление переговорной (комнаты) о бронировании данной комнаты
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns>Идентификатор переговорной</returns>
+        public List<OrderRoomInfo> GetPreDeleteRoomInfos(int roomId)
+        {
+            return dataContent.OrderRooms.Where(x =>x.RoomID == roomId).
+                Select(m => new OrderRoomInfo
+                {
+                    ID = m.ID,
+                    Start = m.Start,
+                    End = m.End,
+                    RoomID = m.RoomID,
+                    MainDate = m.Start,
+                    UserID = m.UserID,
+                    Status = (OrderRoomStatus)m.Status
+                }).ToList();
+        }
+
+        /// <summary>
+        /// Данные о брони
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        public OrderRoomInfo GetOrderRoom(int id)
+        {
+            orderRoom = dataContent.OrderRooms.FirstOrDefault(x => x.ID == id);
+            if (orderRoom == null) return null;
+            OrderRoomInfo orderRoomInfo = new OrderRoomInfo
+            {
+                ID = orderRoom.ID,
+                Start = orderRoom.Start,
+                End = orderRoom.End,
+                RoomID = orderRoom.RoomID,
+                MainDate = orderRoom.Start,
+                UserID = orderRoom.UserID,
+                Status = (OrderRoomStatus)orderRoom.Status
+            };
+            return orderRoomInfo;
         }
     }
 }

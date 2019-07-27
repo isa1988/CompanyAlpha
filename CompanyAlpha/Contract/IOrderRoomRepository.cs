@@ -84,16 +84,17 @@ namespace CompanyAlpha.Contract
         void ReservationDeclined(int id);
 
         /// <summary>
-        /// Вернуть список комнат по фильтру
+        /// Информация при удаление переговорной (комнаты) о бронировании данной комнаты
         /// </summary>
+        /// <param name="roomId">Идентификатор переговрной</param>
+        /// <returns>Идентификатор переговорной</returns>
+        List<OrderRoomInfo> GetPreDeleteRoomInfos(int roomId);
+
+        /// <summary>
+        /// Данные о брони
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
         /// <returns></returns>
-        /// <param name="seatsCount">Количество комнат от и более</param>
-        /// <param name="projector">Проектор</param>
-        /// <param name="markerBoard">Маркерная доска</param>
-        /// <param name="dateStart">Дата начала период</param>
-        /// <param name="dateEnd">Дата окончания периода</param>
-        /// <param name="statusFilter">Фильтр по статусу брони</param>
-        List<OrderRoomInfo> GetRooms(int seatsCount, RoomIsProjector projector, RoomIsMarkerBoard markerBoard,
-                            DateTime dateStart, DateTime dateEnd, OrderRoomStatusFilter statusFilter);
+        OrderRoomInfo GetOrderRoom(int id);
     }
 }

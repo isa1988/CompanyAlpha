@@ -42,7 +42,10 @@ namespace CompanyAlpha.DataInfo
         /// </summary>
         public List<OrderRoomInfo> OrderRoomList { get; set; }
 
-
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     /// <summary>

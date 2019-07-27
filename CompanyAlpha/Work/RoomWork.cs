@@ -75,7 +75,7 @@ namespace CompanyAlpha.Work
             if (room == null)
                 throw new ArgumentException("Не найден объект");
             Check(name, seatsCount);
-            SetValue(name, seatsCount, isProjector, isMarkerBoard, false);
+            SetValue(name, seatsCount, isProjector, isMarkerBoard, isBlock, false);
         }
 
         /// <summary>
@@ -222,5 +222,35 @@ namespace CompanyAlpha.Work
             return roomList;
         }
 
+        /// <summary>
+        /// Вернуть список комнат по фильтру
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="seatsCount">Количество комнат от и более</param>
+        /// <param name="projector">Проектор</param>
+        /// <param name="markerBoard">Маркерная доска</param>
+        /// <param name="dateStart">Дата начала период</param>
+        /// <param name="dateEnd">Дата окончания периода</param>
+        /// <param name="statusFilter">Фильтр по статусу брони</param>
+        public List<OrderRoomInfo> GetRoomsOfFilters(int seatsCount, RoomIsProjector projector,
+            RoomIsMarkerBoard markerBoard, DateTime dateStart, DateTime dateEnd, OrderRoomStatusFilter statusFilter)
+        {
+            RoomWork roomWork = new RoomWork(dataContent);
+            List<RoomInfo> roomList = roomWork.GetRooms(seatsCount, projector, markerBoard);
+            if (roomList == null || roomList.Count == 0) return new List<OrderRoomInfo>();
+            List<OrderRoomInfo> orderRoomList = dataContent.OrderRooms
+                .Where(x => x.Start >= dateStart && x.End <= dateEnd && roomList.Any(n => n.ID == x.ID)).
+                Select(m => new OrderRoomInfo
+                {
+                    ID = m.ID,
+                    Start = m.Start,
+                    End = m.End,
+                    RoomID = m.RoomID,
+                    MainDate = m.Start,
+                    UserID = m.UserID,
+                    Status = (OrderRoomStatus)m.Status
+                }).ToList();
+            return orderRoomList;
+        }
     }
 }

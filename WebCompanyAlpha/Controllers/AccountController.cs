@@ -15,7 +15,7 @@ namespace WebCompanyAlpha.Controllers
     public class AccountController : BaseController
     {
         /// <summary>
-        /// Статьи контроллер
+        /// Работа с пользователями контроллер
         /// </summary>
         /// <param name="dataProvider">Работа с данными</param>
         public AccountController(IDataProvider dataProvider) : base(dataProvider)

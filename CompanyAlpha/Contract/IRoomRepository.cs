@@ -1,4 +1,5 @@
 ﻿using CompanyAlpha.DataInfo;
+using System;
 using System.Collections.Generic;
 
 namespace CompanyAlpha.Contract
@@ -56,7 +57,7 @@ namespace CompanyAlpha.Contract
         /// <param name="id">Идентификатор</param>
         /// <returns></returns>
         RoomInfo GetRoom(int id);
-
+        
         /// <summary>
         /// Вернуть список комнат
         /// </summary>
@@ -72,5 +73,18 @@ namespace CompanyAlpha.Contract
         /// <param name="projector">Проектор</param>
         /// <param name="markerBoard">Маркерная доска</param>
         List<RoomInfo> GetRooms(int seatsCount, RoomIsProjector projector, RoomIsMarkerBoard markerBoard);
+
+        /// <summary>
+        /// Вернуть список комнат по фильтру
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="seatsCount">Количество комнат от и более</param>
+        /// <param name="projector">Проектор</param>
+        /// <param name="markerBoard">Маркерная доска</param>
+        /// <param name="dateStart">Дата начала период</param>
+        /// <param name="dateEnd">Дата окончания периода</param>
+        /// <param name="statusFilter">Фильтр по статусу брони</param>
+        List<OrderRoomInfo> GetRoomsOfFilters(int seatsCount, RoomIsProjector projector, RoomIsMarkerBoard markerBoard,
+            DateTime dateStart, DateTime dateEnd, OrderRoomStatusFilter statusFilter);
     }
 }
