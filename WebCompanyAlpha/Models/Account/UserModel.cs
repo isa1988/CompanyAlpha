@@ -11,7 +11,7 @@ namespace WebCompanyAlpha.Models.Account
     /// <summary>
     /// Пользователь
     /// </summary>
-    public class UserModel
+    public class UserModel : Page
     {
         public int ID { get; set; }
         /// <summary>
@@ -102,7 +102,7 @@ namespace WebCompanyAlpha.Models.Account
         /// </summary>
         public string LayoutPath { get; set; }
 
-
+        public List<OrderRoomModel> OrderRoomModels { get; set; }
         public override string ToString()
         {
             if (SurName != string.Empty || Name != string.Empty || MiddleName != string.Empty)

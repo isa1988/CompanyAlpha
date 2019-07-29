@@ -50,6 +50,11 @@ namespace CompanyAlpha.DataInfo
         /// Комната
         /// </summary>
         public RoomInfo RoomCur { get; set; }
+
+        /// <summary>
+        /// Полное наименование комнаты
+        /// </summary>
+        public string RoomFullName { get; set; }
     }
 
     /// <summary>

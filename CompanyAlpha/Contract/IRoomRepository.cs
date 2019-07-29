@@ -75,7 +75,7 @@ namespace CompanyAlpha.Contract
         List<RoomInfo> GetRooms(int seatsCount, RoomIsProjector projector, RoomIsMarkerBoard markerBoard);
 
         /// <summary>
-        /// Вернуть список комнат по фильтру
+        /// Вернуть список заказ переговорных по фильтру
         /// </summary>
         /// <returns></returns>
         /// <param name="seatsCount">Количество комнат от и более</param>
@@ -86,5 +86,7 @@ namespace CompanyAlpha.Contract
         /// <param name="statusFilter">Фильтр по статусу брони</param>
         List<OrderRoomInfo> GetRoomsOfFilters(int seatsCount, RoomIsProjector projector, RoomIsMarkerBoard markerBoard,
             DateTime dateStart, DateTime dateEnd, OrderRoomStatusFilter statusFilter);
+
+
     }
 }

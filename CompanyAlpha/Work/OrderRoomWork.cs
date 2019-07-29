@@ -298,5 +298,37 @@ namespace CompanyAlpha.Work
             };
             return orderRoomInfo;
         }
+
+        /// <summary>
+        /// Метод для информации до удаления Пользователя
+        /// </summary>
+        /// <param name="userInfo">Пользователь которого собираются удалить</param>
+        /// <returns></returns>
+        public List<OrderRoomInfo> GetPreDeleteUser(UserInfo userInfo)
+        {
+            if (userInfo == null) return new List<OrderRoomInfo>();
+            List<Room> rooms = dataContent.Rooms.ToList();
+            Room room = null;
+            List<OrderRoomInfo> orderRoomInfos = dataContent.OrderRooms.Where(x => x.UserID == userInfo.ID).
+                Select(m => new OrderRoomInfo
+                {
+                    ID = m.ID,
+                    Start = m.Start,
+                    End = m.End,
+                    RoomID = m.RoomID,
+                    MainDate = m.Start,
+                    UserID = m.UserID,
+                    Status = (OrderRoomStatus)m.Status,
+                }).ToList();
+            for (int i = 0; i < orderRoomInfos.Count; i++)
+            {
+                room = rooms.FirstOrDefault(x => x.ID == orderRoomInfos[i].ID);
+                orderRoomInfos[i].RoomFullName = (room != null)
+                    ? room.Name + " кресел " + room.SeatsCount.ToString() +
+                      (room.IsProjector ? ", есть проектор" : ", нет проектора") +
+                      (room.IsMarkerBoard ? ", есть маркерная доска" : ", нет маркерной доска") : string.Empty;
+            }
+            return orderRoomInfos;
+        }
     }
 }

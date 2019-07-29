@@ -10,7 +10,7 @@ namespace WebCompanyAlpha.Models
     /// <summary>
     /// Переговорная
     /// </summary>
-    public class RoomModel
+    public class RoomModel : Page
     {
         /// <summary>
         /// Пользователь
@@ -41,6 +41,8 @@ namespace WebCompanyAlpha.Models
         [DisplayName("Есть маркерная доска")]
         public bool IsMarkerBoard { get; set; }
 
+
+        public List<OrderRoomModel> OrderRooms { get; set; }
         /// <summary>
         /// Комната недоступна
         /// </summary>

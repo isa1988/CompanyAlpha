@@ -5,6 +5,7 @@ using CompanyAlpha.Contract;
 using CompanyAlpha.DataInfo;
 using CompanyAlpha.DataModel;
 using System.Configuration;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Hosting;
 using System.Security.Cryptography;
@@ -336,6 +337,15 @@ namespace CompanyAlpha.Work
             user = dataContent.Users.FirstOrDefault(x => x.ID == id);
             if (user == null)
                 throw new ArgumentException("Не найден объект");
+            List<OrderRoom> orderRooms = dataContent.OrderRooms.Where(x => x.UserID == user.ID).ToList();
+            if (orderRooms?.Count > 0)
+            {
+                for (int i = 0; i < orderRooms.Count; i++)
+                {
+                    dataContent.OrderRooms.Remove(orderRooms[i]);
+                }
+            }
+
             dataContent.Users.Remove(user);
             dataContent.SaveChanges();
         }
@@ -364,15 +374,54 @@ namespace CompanyAlpha.Work
         }
 
         /// <summary>
+        /// Вернуть параметры пользователя
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        public UserInfo GetUser(int id)
+        {
+            User userTemp = dataContent.Users.FirstOrDefault(x => x.ID == id);
+            if (userTemp == null) return null;
+            return new UserInfo
+            {
+                ID = userTemp.ID,
+                Name = userTemp.Name,
+                Password = userTemp.Password,
+                Login = userTemp.Login,
+                RoleID = userTemp.RoleID,
+                IsBlock = userTemp.IsBlock,
+                SurName = userTemp.SurName,
+                MiddleName = userTemp.MiddleName,
+                IsPhoto = userTemp.IsPhoto
+            };
+        }
+
+        /// <summary>
         /// Обнулить пароль до 123
         /// </summary>
-        /// <param name="login">Логин</param>
-        public void PasswordReset(string login)
+        /// <param name="id">Идентификатор</param>
+        public void PasswordReset(int id)
         {
-            user = dataContent.Users.FirstOrDefault(x => x.Login == login);
+            user = dataContent.Users.FirstOrDefault(x => x.ID == id);
             if (user == null)
                 throw new ArgumentException("Не найден объект");
             user.Password = PasswordEncryption(string.Empty);
+            dataContent.SaveChanges();
+        }
+
+        /// <summary>
+        /// Изменить роль
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <param name="role">Роль</param>
+        public void ChangeRole(int id, RoleInfo role)
+        {
+            if (role == null)
+                throw new ArgumentException("Не задана роль");
+            user = dataContent.Users.FirstOrDefault(x => x.ID == id);
+            if (user == null)
+                throw new ArgumentException("Не найден объект");
+            user.RoleID = role.ID;
             dataContent.SaveChanges();
         }
 

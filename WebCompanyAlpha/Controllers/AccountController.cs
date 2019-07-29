@@ -26,6 +26,7 @@ namespace WebCompanyAlpha.Controllers
         public ActionResult Login()
         {
             LoginModel model = new LoginModel();
+            model.Title = "Авторизация";
             return View(model);
         }
 
@@ -49,7 +50,7 @@ namespace WebCompanyAlpha.Controllers
                     model.Error = "Неверно задали логин или пароль";
                 }
             }
-
+            model.Title = "Авторизация";
             return View(model);
         }
 
@@ -63,7 +64,8 @@ namespace WebCompanyAlpha.Controllers
                 PasswordReplay = string.Empty,
                 Name = string.Empty,
                 SurName = string.Empty,
-                MiddleName = string.Empty
+                MiddleName = string.Empty,
+                Title = "Регистрация"
             };
             registerModel.Roles = dataProvider.Role.GetRoles().Select(x =>
                 new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
@@ -99,9 +101,99 @@ namespace WebCompanyAlpha.Controllers
                 model.Roles = dataProvider.Role.GetRoles().Select(x =>
                     new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
                 model.Error = "Неверно задали логин или пароль";
+                model.Title = "Регистрация";
                 return View(model);
             }
-            return Redirect("/Admin/Index");
+            return View("ListUser");
+        }
+
+        /// <summary>
+        /// Изменение роли
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        [AdminAccess]
+        public ActionResult ChangeRole(int id)
+        {
+            UserInfo userInfo = dataProvider.User.GetUser(id);
+            if (userInfo == null) return View();
+            UserModel userModel = new UserModel
+            {
+                ID = userInfo.ID,
+                RoleID = userInfo.RoleID,
+                Name = userInfo.ToString(),
+                Title = "Изменение роли"
+            };
+            userModel.Roles = dataProvider.Role.GetRoles().Select(x =>
+                new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
+            return View(userModel);
+        }
+
+        /// <summary>
+        /// Изменение роли
+        /// </summary>
+        /// <param name="modal">Модель полььзоватеоя</param>
+        /// <returns></returns>
+        [AdminAccess]
+        [HttpPost]
+        public ActionResult ChangeRole(UserModel modal)
+        {
+            try
+            {
+                RoleInfo role = dataProvider.Role.GetRole(modal.RoleID);
+                dataProvider.User.ChangeRole(modal.ID, role);
+                return View("ListUser");
+                
+            }
+            catch
+            {
+                modal.Title = "Изменение роли";
+                return View(modal);
+            }
+        }
+
+        /// <summary>
+        /// Обнуление пороля
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        [AdminAccess]
+        public ActionResult PasswordReset(int id)
+        {
+            UserInfo userInfo = dataProvider.User.GetUser(id);
+            if (userInfo == null) return View();
+            UserModel userModel = new UserModel
+            {
+                ID = userInfo.ID,
+                Title = "Сбросить пароль",
+                RoleID = userInfo.RoleID,
+                Name = userInfo.ToString()
+            };
+            userModel.Roles = dataProvider.Role.GetRoles().Select(x =>
+                new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
+            return View(userModel);
+        }
+
+        /// <summary>
+        /// Обнуление пароля
+        /// </summary>
+        /// <param name="modal">Модель полььзоватеоя</param>
+        /// <returns></returns>
+        [AdminAccess]
+        [HttpPost]
+        public ActionResult PasswordReset(UserModel modal)
+        {
+            try
+            {
+                RoleInfo role = dataProvider.Role.GetRole(modal.RoleID);
+                dataProvider.User.ChangeRole(modal.ID, role);
+                return View("ListUser");
+            }
+            catch
+            {
+                modal.Title = "Сбросить пароль";
+                return View(modal);
+            }
         }
 
         /// <summary>
@@ -120,6 +212,7 @@ namespace WebCompanyAlpha.Controllers
                 userModel.SurName = userInfo.SurName;
                 userModel.Name = userInfo.Name;
                 userModel.MiddleName = userInfo.MiddleName;
+                userModel.Title = "Личный кабинет";
             }
 
             return View(userModel);
@@ -140,6 +233,7 @@ namespace WebCompanyAlpha.Controllers
                 userModel.SurName = userInfo.SurName;
                 userModel.Name = userInfo.Name;
                 userModel.MiddleName = userInfo.MiddleName;
+                userModel.Title = "Редактирование личнх данных";
             }
             return View(userModel);
         }
@@ -171,7 +265,7 @@ namespace WebCompanyAlpha.Controllers
                 fileImport.InputStream.Read(userInfo.File, 0, userInfo.File.Length);
             }
             dataProvider.User.EditPersonalArea(userInfo);
-            return Redirect("/Account/PersonalArea");
+            return View("PersonalArea", model);
         }
 
         public ActionResult Logoff()
@@ -180,5 +274,105 @@ namespace WebCompanyAlpha.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: Room/Delete/5
+        [AdminAccess]
+        public ActionResult Delete(int id)
+        {
+            UserInfo userInfo = dataProvider.User.GetUser(id);
+            if (userInfo == null)
+                return View();
+            UserModel userModel = new UserModel
+            {
+                ID = userInfo.ID,
+                Name = userInfo.Name,
+                Password = userInfo.Password,
+                Login = userInfo.Login,
+                RoleID = userInfo.RoleID,
+                IsBlock = userInfo.IsBlock,
+                SurName = userInfo.SurName,
+                MiddleName = userInfo.MiddleName,
+                IsPhoto = userInfo.IsPhoto,
+                Title = "Удаление",
+                OrderRoomModels = dataProvider.OrderRoom.GetPreDeleteUser(userInfo).Select(x => new OrderRoomModel
+                {
+                    ID = x.ID,
+                    Start = x.Start,
+                    End = x.End,
+                    RoomCur = x.RoomFullName
+                }).ToList()
+            };
+            if (userModel.OrderRoomModels?.Count > 0)
+                return View("DeleteDetails", userModel);
+            else
+                return View(userModel);
+        }
+
+        // POST: Room/Delete/5
+        [AdminAccess]
+        [HttpPost]
+        public ActionResult Delete(UserModel modal)
+        {
+            try
+            {
+                dataProvider.User.Delete(modal.ID);
+                return Redirect("/Account/PersonalArea");
+            }
+            catch
+            {
+                return View(modal);
+            }
+        }
+
+        // GET: Room/Delete/5
+        [AdminAccess]
+        public ActionResult DeleteDetails(UserModel model)
+        {
+            model.Title = "Удаление";
+            return View(model);
+        }
+
+        // POST: Room/Delete/5
+        [AdminAccess]
+        [HttpPost]
+        public ActionResult DeleteDetails(RoomModel model, int id)
+        {
+            try
+            {
+                dataProvider.User.Delete(model.ID);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(id);
+            }
+        }
+
+        /// <summary>
+        /// Список всех пользователей
+        /// </summary>
+        /// <returns></returns>
+        [AdminAccess]
+        public ActionResult ListUser()
+        {
+            List<RoleInfo> rooms = dataProvider.Role.GetRoles();
+            ArreyOfModel arreyOfModel = new ArreyOfModel();
+            
+            List<UserModel> userModels = dataProvider.User.GetList().Select(x => new UserModel
+            {
+                ID = x.ID,
+                Name = x.Name,
+                Password = x.Password,
+                Login = x.Login,
+                RoleID = x.RoleID,
+                RoleNane = rooms.FirstOrDefault(n => n.ID == x.RoleID)?.Name ?? string.Empty,
+                IsBlock = x.IsBlock,
+                SurName = x.SurName,
+                MiddleName = x.MiddleName,
+                IsPhoto = x.IsPhoto
+            }).ToList();
+            arreyOfModel.Title = "Пользователм";
+            arreyOfModel.UserModels = userModels;
+            return View(arreyOfModel);
+        }
     }
 }

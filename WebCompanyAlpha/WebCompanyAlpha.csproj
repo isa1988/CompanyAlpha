@@ -168,9 +168,11 @@
     <Compile Include="Models\Account\LoginModel.cs" />
     <Compile Include="Models\Account\RegisterModel.cs" />
     <Compile Include="Models\Account\UserModel.cs" />
+    <Compile Include="Models\ArreyOfModel.cs" />
     <Compile Include="Models\Cookies.cs" />
     <Compile Include="Models\CustomHtmlHelepers.cs" />
     <Compile Include="Models\HomeTest.cs" />
+    <Compile Include="Models\OrderRoomModel.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\RoomModel.cs" />
@@ -190,6 +192,9 @@
     <Content Include="Views\Room\Index.cshtml" />
     <Content Include="Views\Room\Insert.cshtml" />
     <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Account\ListUser.cshtml" />
+    <Content Include="Views\Account\ChangeRole.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

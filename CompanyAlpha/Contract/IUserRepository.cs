@@ -59,8 +59,15 @@ namespace CompanyAlpha.Contract
         /// <summary>
         /// Обнулить пароль до 123
         /// </summary>
-        /// <param name="login">Логин</param>
-        void PasswordReset(string login);
+        /// <param name="id">Идентификатор</param>
+        void PasswordReset(int id);
+
+        /// <summary>
+        /// Изменить роль
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <param name="role">Роль</param>
+        void ChangeRole(int id, RoleInfo role);
 
         /// <summary>
         /// Вернуть параметры пользователя
@@ -68,6 +75,13 @@ namespace CompanyAlpha.Contract
         /// <param name="login">Логин</param>
         /// <returns></returns>
         UserInfo GetUser(string login);
+
+        /// <summary>
+        /// Вернуть параметры пользователя
+        /// </summary>
+        /// <param name="id">Идентификатор</param>
+        /// <returns></returns>
+        UserInfo GetUser(int id);
 
         /// <summary>
         /// Вход в систему

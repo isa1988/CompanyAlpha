@@ -96,5 +96,13 @@ namespace CompanyAlpha.Contract
         /// <param name="id">Идентификатор</param>
         /// <returns></returns>
         OrderRoomInfo GetOrderRoom(int id);
+
+
+        /// <summary>
+        /// Метод для информации до удаления Пользователя
+        /// </summary>
+        /// <param name="userInfo">Пользователь которого собираются удалить</param>
+        /// <returns></returns>
+        List<OrderRoomInfo> GetPreDeleteUser(UserInfo userInfo);
     }
 }

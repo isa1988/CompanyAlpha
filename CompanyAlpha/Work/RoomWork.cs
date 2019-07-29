@@ -21,7 +21,7 @@ namespace CompanyAlpha.Work
         /// <param name="mainContent">работа с базой</param>
         public RoomWork(object dataContent)
         {
-            if (dataContent is DataContent) this.dataContent = (DataContent)dataContent;
+            if (dataContent is DataContent) this.dataContent = (DataContent) dataContent;
         }
 
         /// <summary>
@@ -124,8 +124,8 @@ namespace CompanyAlpha.Work
         /// <param name="isMarkerBoard">Наличие маркерной доски</param>
         /// <param name="isBlock">Заблокировать комнату</param>
         /// <param name="isNew">Новый</param>
-        private void SetValue(string name, int seatsCount, bool isProjector, 
-                               bool isMarkerBoard, bool isBlock, bool isNew = true)
+        private void SetValue(string name, int seatsCount, bool isProjector,
+            bool isMarkerBoard, bool isBlock, bool isNew = true)
         {
             if (isNew)
             {
@@ -151,6 +151,15 @@ namespace CompanyAlpha.Work
             room = dataContent.Rooms.FirstOrDefault(x => x.ID == id);
             if (room == null)
                 throw new ArgumentException("Не найден объект");
+
+            List<OrderRoom> orderRooms = dataContent.OrderRooms.Where(x => x.UserID == room.ID).ToList();
+            if (orderRooms?.Count > 0)
+            {
+                for (int i = 0; i < orderRooms.Count; i++)
+                {
+                    dataContent.OrderRooms.Remove(orderRooms[i]);
+                }
+            }
             dataContent.Rooms.Remove(room);
             dataContent.SaveChanges();
         }
@@ -223,7 +232,7 @@ namespace CompanyAlpha.Work
         }
 
         /// <summary>
-        /// Вернуть список комнат по фильтру
+        /// Вернуть список заказ переговорных по фильтру
         /// </summary>
         /// <returns></returns>
         /// <param name="seatsCount">Количество комнат от и более</param>
@@ -239,17 +248,17 @@ namespace CompanyAlpha.Work
             List<RoomInfo> roomList = roomWork.GetRooms(seatsCount, projector, markerBoard);
             if (roomList == null || roomList.Count == 0) return new List<OrderRoomInfo>();
             List<OrderRoomInfo> orderRoomList = dataContent.OrderRooms
-                .Where(x => x.Start >= dateStart && x.End <= dateEnd && roomList.Any(n => n.ID == x.ID)).
-                Select(m => new OrderRoomInfo
-                {
-                    ID = m.ID,
-                    Start = m.Start,
-                    End = m.End,
-                    RoomID = m.RoomID,
-                    MainDate = m.Start,
-                    UserID = m.UserID,
-                    Status = (OrderRoomStatus)m.Status
-                }).ToList();
+                .Where(x => x.Start >= dateStart && x.End <= dateEnd && roomList.Any(n => n.ID == x.ID)).Select(m =>
+                    new OrderRoomInfo
+                    {
+                        ID = m.ID,
+                        Start = m.Start,
+                        End = m.End,
+                        RoomID = m.RoomID,
+                        MainDate = m.Start,
+                        UserID = m.UserID,
+                        Status = (OrderRoomStatus) m.Status
+                    }).ToList();
             return orderRoomList;
         }
     }

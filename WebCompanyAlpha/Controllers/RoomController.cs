@@ -25,6 +25,7 @@ namespace WebCompanyAlpha.Controllers
         // GET: Room
         public ActionResult Index()
         {
+            ArreyOfModel arreyOfModel = new ArreyOfModel();
             List<RoomModel> roomModels = dataProvider.Room.GetRooms(0, RoomIsProjector.All, RoomIsMarkerBoard.All)
                 .Select(x => new RoomModel
                 {
@@ -34,12 +35,18 @@ namespace WebCompanyAlpha.Controllers
                     IsProjector = x.IsProjector,
                     IsMarkerBoard = x.IsMarkerBoard
                 }).ToList();
-            return View(roomModels);
+            arreyOfModel.Title = "Переговорные";
+            arreyOfModel.RoomModels = roomModels;
+            return View(arreyOfModel);
         }
         
         // GET: Room/Create
         public ActionResult Insert()
         {
+            RoomModel role = new RoomModel
+            {
+                Title = "Новая переговорная"
+            };
             return View();
         }
 
@@ -72,7 +79,8 @@ namespace WebCompanyAlpha.Controllers
                 SeatsCount = roomInfo.SeatsCount,
                 IsMarkerBoard = roomInfo.IsMarkerBoard,
                 IsProjector = roomInfo.IsProjector,
-                IsBlock = false
+                IsBlock = false,
+                Title = "Редактирование переговорной"
             };
             return View(roomModel);
         }
@@ -114,9 +122,27 @@ namespace WebCompanyAlpha.Controllers
                 SeatsCount = roomInfo.SeatsCount,
                 IsMarkerBoard = roomInfo.IsMarkerBoard,
                 IsProjector = roomInfo.IsProjector,
-                IsBlock = false
+                IsBlock = false,
+                Title = "Удаление переговорной"
             };
-            return View(roomModel);
+            roomModel.OrderRooms = dataProvider.OrderRoom.GetPreDeleteRoomInfos(roomModel.ID).Select(x => new OrderRoomModel
+            {
+                ID = x.ID,
+                Start = x.Start,
+                End = x.Start,
+                MainDate = x.MainDate,
+                Status = x.Status,
+                UserCur = x.UserCur != null ? x.UserCur.ToString() : string.Empty
+            }).ToList();
+            roomModel.Title = "Удаление переговорной";
+            if (roomModel.OrderRooms?.Count > 0)
+            {
+                return RedirectToAction("DeleteDetails", roomModel);
+            }
+            else
+            {
+                return View(roomModel);
+            }
         }
 
         // POST: Room/Delete/5
@@ -125,17 +151,12 @@ namespace WebCompanyAlpha.Controllers
         {
             try
             {
-                List<OrderRoomInfo> orderRoomInfos = dataProvider.OrderRoom.GetPreDeleteRoomInfos(modal.ID);
-                if (orderRoomInfos?.Count > 0)
-                {
-                    dataProvider.Room.Delete(modal.ID);
-                    return RedirectToAction("Index");
-                }
-                else
-                    return RedirectToAction("DeleteDetails", modal);
+                dataProvider.Room.Delete(modal.ID);
+                return RedirectToAction("Index");
             }
             catch
             {
+                modal.Title = "Удаление переговорной";
                 return View(modal);
             }
         }
@@ -143,21 +164,23 @@ namespace WebCompanyAlpha.Controllers
         // GET: Room/Delete/5
         public ActionResult DeleteDetails(RoomModel model)
         {
+            model.Title = "Удаление переговорной";
             return View(model);
         }
 
         // POST: Room/Delete/5
         [HttpPost]
-        public ActionResult DeleteDetails(int id)
+        public ActionResult DeleteDetails(RoomModel model, int id)
         {
             try
             {
-                dataProvider.Room.Delete(id);
+                dataProvider.Room.Delete(model.ID);
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View(id);
+                model.Title = "Удаление переговорной";
+                return View(model);
             }
         }
     }
