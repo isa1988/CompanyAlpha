@@ -1,5 +1,9 @@
 ﻿using CompanyAlpha.DataInfo;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace WebCompanyAlpha.Models
 {
@@ -12,26 +16,49 @@ namespace WebCompanyAlpha.Models
         /// <summary>
         /// Датв
         /// </summary>
+        [DisplayName("Число")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime MainDate { get; set; }
+
         /// <summary>
         /// Начальная время периода
         /// </summary>
-        public DateTime Start { get; set; }
+        [DisplayName("Время начала")]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime StartDT { get; set; }
 
         /// <summary>
         /// Конечная время периода
         /// </summary>
-        public DateTime End { get; set; }
+        [DisplayName("Время окончания")]
+        [DataType(DataType.Time)]
+        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime EndDT { get; set; }
 
         /// <summary>
         /// Пользователь
         /// </summary>
+        [DisplayName("Пользователь")]
         public int UserID { get; set; }
 
         /// <summary>
         /// Комната
         /// </summary>
+        [DisplayName("Комната")]
         public int RoomID { get; set; }
+
+        /// <summary>
+        /// Комната
+        /// </summary>
+        [DisplayName("Комната")]
+        public List<SelectListItem> Rooms { get; set; }
+
+        /// <summary>
+        /// Пользователь
+        /// </summary>
+        public int MainUserID { get; set; }
 
         /// <summary>
         /// Статус комнаты
@@ -42,14 +69,21 @@ namespace WebCompanyAlpha.Models
         /// </summary>
         public OrderRoomStatus Status { get; set; }
 
+        [DisplayName("Статус")]
+        public string StatusName { get; set; }
+
         /// <summary>
         /// Пользователь
         /// </summary>
+        [DisplayName("Пользователь")]
         public string UserCur { get; set; }
 
         /// <summary>
         /// Комната
         /// </summary>
+        [DisplayName("Комната")]
         public string RoomCur { get; set; }
+
+        public List<OrderRoomModel> ReservationApprovedList { get; set; }
     }
 }

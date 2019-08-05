@@ -1,0 +1,25 @@
+﻿@model WebCompanyAlpha.Models.RoomModel
+
+@{
+    ViewBag.Title = "DeleteDetails";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>удалить</h2>
+
+@foreach (WebCompanyAlpha.Models.OrderRoomModel rec in Model.OrderRooms)
+{
+    <p>@rec.RoomCur</p>
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.OrderRooms)
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}

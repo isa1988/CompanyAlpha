@@ -1,0 +1,79 @@
+﻿@model WebCompanyAlpha.Models.OrderRoomModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout" + Model.Layout + ".cshtml";
+}
+
+<h2>@Model.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MainDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDT)
+        </dd>
+        
+    </dl>
+</div>
+<p>
+    @if ((int)Model.Status == 0 && Model.UserID == Model.MainUserID && !Model.IsChangeRoom && !Model.IsEditUser)
+    {
+        <div class="form-group">
+            @Html.ActionLink("Редактирование", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Удалить", "Delete", new { id = Model.ID }, new { @class = "btn btn-success" })
+        </div>
+    }
+    else if ((int)Model.Status == 0 && Model.IsChangeRoom && Model.IsEditUser)
+    {
+        <div class="form-group">
+            @Html.ActionLink("Подвердить бронь", "ReservationApproved", new { id = Model.ID }, new { @class = "btn btn-success" })
+        </div>
+    }
+    @if (Model.IsChangeRoom && Model.IsEditUser)
+    {
+        <div class="form-group">
+            @Html.ActionLink("Удалить", "Delete", new { id = Model.ID }, new { @class = "btn btn-success" })
+        </div>
+    }
+    <div class="form-group">
+        @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-success" })
+    </div>
+</p>

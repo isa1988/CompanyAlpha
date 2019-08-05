@@ -55,6 +55,17 @@ namespace CompanyAlpha.DataInfo
         /// Полное наименование комнаты
         /// </summary>
         public string RoomFullName { get; set; }
+
+
+        public string GetStatusName()
+        {
+            string retVal = "Подача брони";
+            if (Status == OrderRoomStatus.ReservationApproved)
+                retVal = "Бронь одобрена";
+            else if (Status == OrderRoomStatus.ReservationDeclined)
+                retVal = "Бронь отклонена";
+            return retVal;
+        }
     }
 
     /// <summary>

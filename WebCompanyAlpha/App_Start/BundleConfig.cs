@@ -20,14 +20,28 @@ namespace WebCompanyAlpha.App_Start
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/bootstrap.js",
+                "~/Scripts/bootstrap.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/workToFile").Include(
                 "~/Scripts/collapsibleClick.js",
                 "~/Scripts/workToFile.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
+                "~/Scripts/fullcalendar/jquery-2.0.0.min.js",
+                "~/fullcalendar/fullcalendar/jquery-ui.min.js",
+                "~/Scripts/fullcalendar/helperFun.js",
+                "~/Scripts/fullcalendar/moment.min.js",
+                "~/Scripts/fullcalendar/fullcalendar/fullcalendar.min.js",
+                "~/Scripts/fullcalendar/fullcalendar/locale-all.js",
+                "~/Scripts/fullcalendar/calendar.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/site.css",
                 "~/Content/MyStyles.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fullcalendar").Include(
+                "~/Content/fullcalendar/fullcalendar.min.css"));
         }
     }
 }

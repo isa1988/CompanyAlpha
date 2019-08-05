@@ -34,11 +34,10 @@ namespace CompanyAlpha.Contract
         /// <param name="mainDate">Дата</param>
         /// <param name="start">Время начала</param>
         /// <param name="end">Конечное время</param>
-        /// <param name="user">Пользователь</param>
         /// <param name="room">Комната</param>
         /// <param name="status">Статус брони </param>
         /// <returns></returns>
-        void Edit(int id, DateTime mainDate, DateTime start, DateTime end, UserInfo user, RoomInfo room, OrderRoomStatus status);
+        void Edit(int id, DateTime mainDate, DateTime start, DateTime end, RoomInfo room, OrderRoomStatus status);
 
         /// <summary>
         /// Редактировать бронь на комнату
@@ -47,10 +46,9 @@ namespace CompanyAlpha.Contract
         /// <param name="mainDate">Дата</param>
         /// <param name="start">Время начала</param>
         /// <param name="end">Конечное время</param>
-        /// <param name="user">Пользователь</param>
         /// <param name="room">Комната</param>
         /// <returns></returns>
-        void Edit(int id, DateTime mainDate, DateTime start, DateTime end, UserInfo user, RoomInfo room);
+        void Edit(int id, DateTime mainDate, DateTime start, DateTime end, RoomInfo room);
 
         /// <summary>
         /// Редактировать бронь на комнату
@@ -89,6 +87,20 @@ namespace CompanyAlpha.Contract
         /// <param name="roomId">Идентификатор переговрной</param>
         /// <returns>Идентификатор переговорной</returns>
         List<OrderRoomInfo> GetPreDeleteRoomInfos(int roomId);
+
+        /// <summary>
+        /// Возратить все брони
+        /// </summary>
+        /// <returns></returns>
+        List<OrderRoomInfo> GetOrderRoomInfos();
+
+        /// <summary>
+        /// Возратить все брони за период
+        /// </summary>
+        /// <returns></returns>
+        /// <param name="dtStsrt">Дата начала</param>
+        /// <param name="dtEnd">Дата окончания</param>
+        List<OrderRoomInfo> GetOrderRoomInfos(DateTime dtStsrt, DateTime dtEnd);
 
         /// <summary>
         /// Данные о брони

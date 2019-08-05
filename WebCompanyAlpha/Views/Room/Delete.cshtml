@@ -1,0 +1,59 @@
+﻿@model WebCompanyAlpha.Models.RoomModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Удалить</h2>
+
+<h3>Вы уверены что хотите удалить</h3>
+<div>
+    <h4>RoomModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatsCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatsCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsProjector)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsProjector)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsMarkerBoard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsMarkerBoard)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.OrderRooms)
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

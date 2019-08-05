@@ -85,12 +85,12 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataModel\Role.cs" />
-    <Compile Include="Work\DataProvider.cs" />
-    <Compile Include="Work\HelpClass.cs" />
-    <Compile Include="Work\OrderRoomWork.cs" />
-    <Compile Include="Work\RoleWork.cs" />
-    <Compile Include="Work\RoomWork.cs" />
-    <Compile Include="Work\UserWork.cs" />
+    <Compile Include="Repository\DataProvider.cs" />
+    <Compile Include="Repository\Helper.cs" />
+    <Compile Include="Repository\OrderRoomRepository.cs" />
+    <Compile Include="Repository\RoleRepository.cs" />
+    <Compile Include="Repository\RoomRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

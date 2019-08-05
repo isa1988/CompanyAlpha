@@ -31,6 +31,7 @@ namespace WebCompanyAlpha.Models.Account
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Пароль")]
         public string Password { get; set; }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace WebCompanyAlpha.Models.Account
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
+        [DisplayName("Подтвердить пароль")]
         public string PasswordReplay { get; set; }
 
 
@@ -49,6 +51,7 @@ namespace WebCompanyAlpha.Models.Account
         /// <summary>
         /// Роль
         /// </summary>
+        [DisplayName("Роль")]
         public int RoleID { get; set; }
 
         /// <summary>
@@ -59,16 +62,19 @@ namespace WebCompanyAlpha.Models.Account
         /// <summary>
         /// Имя
         /// </summary>
+        [DisplayName("Имя")]
         public string Name { get; set; }
 
         /// <summary>
         /// Фамилия
         /// </summary>
+        [DisplayName("Фамилия")]
         public string SurName { get; set; }
 
         /// <summary>
         /// Отчество
         /// </summary>
+        [DisplayName("Отчество")]
         public string MiddleName { get; set; }
     }
 }

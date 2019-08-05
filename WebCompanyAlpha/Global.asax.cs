@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
-using CompanyAlpha.Work;
+using CompanyAlpha.Repository;
 using CompanyAlpha.Contract;
 using System;
 using System.Collections.Generic;

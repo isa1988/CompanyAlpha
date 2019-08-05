@@ -41,10 +41,13 @@ namespace CompanyAlpha.DataInfo
         /// Занята комната на время
         /// </summary>
         public List<OrderRoomInfo> OrderRoomList { get; set; }
-
+        
         public override string ToString()
         {
-            return Name;
+            string retVal = Name + " кресел " + SeatsCount.ToString();
+            if (IsProjector) retVal += " проектор есть";
+            if (IsMarkerBoard) retVal += " доска есть";
+            return retVal;
         }
     }
 

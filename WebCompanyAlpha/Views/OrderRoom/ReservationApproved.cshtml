@@ -1,0 +1,67 @@
+﻿@model WebCompanyAlpha.Models.OrderRoomModel
+
+@{
+    ViewBag.Title = "ReservationApproved";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div>
+    <h4>Подвердить</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MainDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDT)
+        </dd>
+
+    </dl>
+</div>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.ReservationApprovedList)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

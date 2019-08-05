@@ -125,19 +125,29 @@ namespace WebCompanyAlpha.Controllers
                 IsBlock = false,
                 Title = "Удаление переговорной"
             };
+            
             roomModel.OrderRooms = dataProvider.OrderRoom.GetPreDeleteRoomInfos(roomModel.ID).Select(x => new OrderRoomModel
             {
                 ID = x.ID,
-                Start = x.Start,
-                End = x.Start,
+                StartDT = x.Start,
+                EndDT = x.Start,
                 MainDate = x.MainDate,
                 Status = x.Status,
+                RoomID = x.RoomID,
                 UserCur = x.UserCur != null ? x.UserCur.ToString() : string.Empty
             }).ToList();
+            
             roomModel.Title = "Удаление переговорной";
             if (roomModel.OrderRooms?.Count > 0)
             {
-                return RedirectToAction("DeleteDetails", roomModel);
+                List<RoomInfo> roomInfos = dataProvider.Room.GetRooms(0, RoomIsProjector.All, RoomIsMarkerBoard.All);
+                for (int i = 0; i < roomModel.OrderRooms.Count; i++)
+                {
+                    roomModel.OrderRooms[i].RoomCur =
+                        roomInfos.FirstOrDefault(x => x.ID == roomModel.OrderRooms[i].RoomID).ToString();
+                }
+
+                return View("DeleteDetails", roomModel);
             }
             else
             {

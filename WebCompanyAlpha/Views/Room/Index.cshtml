@@ -1,5 +1,5 @@
 ﻿@model WebCompanyAlpha.Models.ArreyOfModel
-@using WebCompanyAlpha.Models;
+@using WebCompanyAlpha.Helper;
 
 @{
     var grid = new WebGrid(source: Model.RoomModels, rowsPerPage: 50);
@@ -25,9 +25,10 @@
             grid.Column(format: (item) => new
                 HtmlString(Html.ImageActionLink(" ", "Edit", "Room", new {id = item.ID},
                     null, "~/Content/Image/edit.jpg").ToString())),
-            //<a href="<%: Url.Action("Action", "Controller", new { id = item.ID })%>"><img src="yourimg.jpg" /></a>
-            grid.Column(format: (item) => new HtmlString(
-                "<a href = Url.Action(Action, Controller, new { id = " + item.ID + "})><img src = ~/Content/Image/delete.jpg/></a>"))
+            grid.Column(format: (item) => new
+                HtmlString(Html.ImageActionLink(" ", "Delete", "Room", new { id = item.ID },
+                    null, "~/Content/Image/delete.jpg").ToString()))
+            
             )
         )
 

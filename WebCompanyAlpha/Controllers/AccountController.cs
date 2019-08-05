@@ -7,6 +7,7 @@ using System.Web.Security;
 using CompanyAlpha.Contract;
 using CompanyAlpha.DataInfo;
 using WebCompanyAlpha.Filters;
+using WebCompanyAlpha.Helper;
 using WebCompanyAlpha.Models;
 using WebCompanyAlpha.Models.Account;
 
@@ -37,12 +38,13 @@ namespace WebCompanyAlpha.Controllers
             {
                 // поиск пользователя в бд
                 UserInfo user = dataProvider.User.CheckLoginIn(model.Login, model.Password);
-                user.RoleCur = dataProvider.Role.GetRole(user.RoleID);
                 if (user != null)
                 {
+                    user.RoleCur = dataProvider.Role.GetRole(user.RoleID);
                     FormsAuthentication.SetAuthCookie(user.ToString(), true);
                     Cookies.IsChangeRoom = user.RoleCur.IsChangeRoom;
                     Cookies.IsEditUser = user.RoleCur.IsEditUser;
+                    Cookies.Login = user.Login;
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -104,7 +106,7 @@ namespace WebCompanyAlpha.Controllers
                 model.Title = "Регистрация";
                 return View(model);
             }
-            return View("ListUser");
+            return RedirectToAction("ListUser");
         }
 
         /// <summary>
@@ -142,7 +144,7 @@ namespace WebCompanyAlpha.Controllers
             {
                 RoleInfo role = dataProvider.Role.GetRole(modal.RoleID);
                 dataProvider.User.ChangeRole(modal.ID, role);
-                return View("ListUser");
+                return RedirectToAction("ListUser");
                 
             }
             catch
@@ -187,7 +189,7 @@ namespace WebCompanyAlpha.Controllers
             {
                 RoleInfo role = dataProvider.Role.GetRole(modal.RoleID);
                 dataProvider.User.ChangeRole(modal.ID, role);
-                return View("ListUser");
+                return RedirectToAction("ListUser");
             }
             catch
             {
@@ -293,18 +295,31 @@ namespace WebCompanyAlpha.Controllers
                 MiddleName = userInfo.MiddleName,
                 IsPhoto = userInfo.IsPhoto,
                 Title = "Удаление",
-                OrderRoomModels = dataProvider.OrderRoom.GetPreDeleteUser(userInfo).Select(x => new OrderRoomModel
-                {
-                    ID = x.ID,
-                    Start = x.Start,
-                    End = x.End,
-                    RoomCur = x.RoomFullName
-                }).ToList()
+                
+
             };
+            userModel.OrderRoomModels = dataProvider.OrderRoom.GetPreDeleteUser(userInfo).Select(x => new OrderRoomModel
+            {
+                ID = x.ID,
+                StartDT = x.Start,
+                EndDT = x.End,
+                RoomID = x.RoomID,
+            }).ToList();
+
             if (userModel.OrderRoomModels?.Count > 0)
+            {
+                List<RoomInfo> roomInfos = dataProvider.Room.GetRooms(0, RoomIsProjector.All, RoomIsMarkerBoard.All);
+                for (int i = 0; i < userModel.OrderRoomModels.Count; i++)
+                {
+                    userModel.OrderRoomModels[i].RoomCur =
+                        roomInfos.FirstOrDefault(x => x.ID == userModel.OrderRoomModels[i].RoomID).ToString();
+                }
                 return View("DeleteDetails", userModel);
+            }
             else
+            {
                 return View(userModel);
+            }
         }
 
         // POST: Room/Delete/5

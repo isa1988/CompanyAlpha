@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCompanyAlpha", "WebCompa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyAlpha", "CompanyAlpha\CompanyAlpha.csproj", "{2751A425-7C6E-448A-B435-B1A359C3F617}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestCompanyAlpha", "UnitTestCompanyAlpha\UnitTestCompanyAlpha.csproj", "{5ECC13C9-6E1F-4F7A-9DE5-70632DA9621B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{2751A425-7C6E-448A-B435-B1A359C3F617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2751A425-7C6E-448A-B435-B1A359C3F617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2751A425-7C6E-448A-B435-B1A359C3F617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ECC13C9-6E1F-4F7A-9DE5-70632DA9621B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ECC13C9-6E1F-4F7A-9DE5-70632DA9621B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ECC13C9-6E1F-4F7A-9DE5-70632DA9621B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ECC13C9-6E1F-4F7A-9DE5-70632DA9621B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

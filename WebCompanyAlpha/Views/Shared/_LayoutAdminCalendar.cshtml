@@ -1,0 +1,30 @@
+﻿@model WebCompanyAlpha.Models.Page
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать  @(Model?.Title ?? string.Empty)</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fullcalendar")
+    
+</head>
+<body>
+    @Html.Partial("_LayoutAdminMenu")
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <div class="container body-content center-block">
+        <footer class="text-center">
+            <p>&copy; Test task for company. Made by Ibragimov Isa.</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/fullcalendar")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

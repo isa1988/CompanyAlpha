@@ -1,0 +1,65 @@
+﻿@model WebCompanyAlpha.Models.OrderRoomModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы уверены удалить?</h3>
+<div>
+    <h4>OrderRoomModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RoomCur)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoomCur)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MainDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDT)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "Index")
+        </div>
+    }
+</div>

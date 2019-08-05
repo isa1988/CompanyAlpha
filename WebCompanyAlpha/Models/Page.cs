@@ -19,5 +19,20 @@ namespace WebCompanyAlpha.Models
         /// Текст ошибки
         /// </summary>
         public string Error { get; set; }
+
+        /// <summary>
+        /// Доступ к исправлению переговорных
+        /// </summary>
+        public bool IsChangeRoom { get; set; }
+
+        /// <summary>
+        /// Доступ к добавлению, редактированию пользователей
+        /// </summary>
+        public bool IsEditUser { get; set; }
+
+        /// <summary>
+        /// Страничка
+        /// </summary>
+        public string Layout { get; set; }
     }
 }
