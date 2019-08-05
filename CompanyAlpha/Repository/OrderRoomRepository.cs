@@ -217,7 +217,9 @@ namespace CompanyAlpha.Repository
             List<OrderRoom> orderRoomList = dataContent.OrderRooms.Where(x =>
                     (x.ID != id && x.Start <= orderRoom.Start && x.End >= orderRoom.Start && 
                      x.RoomID == orderRoom.RoomID && x.Status == 0) ||
-                    (x.ID != id && x.Start <= orderRoom.End && x.End >= orderRoom.End && 
+                    (x.ID != id && x.Start <= orderRoom.End && x.End >= orderRoom.End &&
+                     x.RoomID == orderRoom.RoomID && x.Status == 0) ||
+                    (x.ID != id && x.Start >= orderRoom.Start && x.End <= orderRoom.End &&
                      x.RoomID == orderRoom.RoomID && x.Status == 0)).ToList();
             for (int i = 0; i < orderRoomList.Count; i++)
                 orderRoomList[i].Status = 2;
@@ -249,6 +251,8 @@ namespace CompanyAlpha.Repository
                 (x.ID != id && x.Start <= orderRoom.Start && x.End >= orderRoom.Start &&
                  x.RoomID == orderRoom.RoomID && x.Status == 0) ||
                 (x.ID != id && x.Start <= orderRoom.End && x.End >= orderRoom.End &&
+                 x.RoomID == orderRoom.RoomID && x.Status == 0) ||
+                (x.ID != id && x.Start >= orderRoom.Start && x.End <= orderRoom.End &&
                  x.RoomID == orderRoom.RoomID && x.Status == 0)).
                 Select(m => new OrderRoomInfo
                 {

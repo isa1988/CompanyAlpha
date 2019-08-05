@@ -171,6 +171,8 @@ namespace WebCompanyAlpha.Controllers
                 RoleID = userInfo.RoleID,
                 Name = userInfo.ToString()
             };
+
+
             userModel.Roles = dataProvider.Role.GetRoles().Select(x =>
                 new SelectListItem { Text = x.Name, Value = x.ID.ToString() }).ToList();
             return View(userModel);
@@ -216,7 +218,10 @@ namespace WebCompanyAlpha.Controllers
                 userModel.MiddleName = userInfo.MiddleName;
                 userModel.Title = "Личный кабинет";
             }
-
+            if (Cookies.IsChangeRoom && Cookies.IsEditUser)
+                userModel.Layout = "Admin";
+            else if (!Cookies.IsChangeRoom && !Cookies.IsEditUser)
+                userModel.Layout = "User";
             return View(userModel);
         }
 
@@ -267,7 +272,7 @@ namespace WebCompanyAlpha.Controllers
                 fileImport.InputStream.Read(userInfo.File, 0, userInfo.File.Length);
             }
             dataProvider.User.EditPersonalArea(userInfo);
-            return View("PersonalArea", model);
+            return RedirectToAction("PersonalArea", model);
         }
 
         public ActionResult Logoff()
