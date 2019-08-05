@@ -8,22 +8,27 @@
 {
     <div class="form-horizontal">
         <div class="form-group">
-            @Html.LabelFor(model => model.Login, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Login, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Login)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Password)
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" value="Войти" class="btn btn-success"/>
+            <input type="submit" value="Войти" class="btn btn-success" />
         </div>
     </div>
+}
+
+@if (Model.Error?.Length > 0)
+{
+    <p class="text-warning">@Model.Error</p>
 }
 
 @if (@Model?.Error?.Length > 0)

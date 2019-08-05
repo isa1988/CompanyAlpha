@@ -24,7 +24,7 @@ namespace WebCompanyAlpha.Controllers
         public ActionResult Index()
         {
             if (User.Identity.IsAuthenticated && Cookies.IsEditUser && Cookies.IsChangeRoom)
-                return Redirect("Admin/Index");
+                return Redirect("OrderRoom/Index");
             else if (User.Identity.IsAuthenticated && !Cookies.IsEditUser && !Cookies.IsChangeRoom)
                 return Redirect("OrderRoom/Index");
             string result = "Вы не авторизованы 123";

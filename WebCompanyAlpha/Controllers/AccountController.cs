@@ -47,7 +47,7 @@ namespace WebCompanyAlpha.Controllers
                     Cookies.Login = user.Login;
                     return RedirectToAction("Index", "Home");
                 }
-                else
+                else 
                 {
                     model.Error = "Неверно задали логин или пароль";
                 }

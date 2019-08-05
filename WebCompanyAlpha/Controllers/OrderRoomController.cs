@@ -104,7 +104,7 @@ namespace WebCompanyAlpha.Controllers
             {
                 Title = "Регистрация",
                 MainDate = dt1,
-                StartDT = dt1.AddMinutes(1),
+                StartDT = dt1,
                 EndDT = dt1.AddMinutes(30),
                 Status = 0,
             };
@@ -134,8 +134,9 @@ namespace WebCompanyAlpha.Controllers
                 dataProvider.OrderRoom.Insert(orderRoomInfo);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                model.Error = ex.Message;
                 model.Rooms = dataProvider.Room.GetRooms().Select(x =>
                     new SelectListItem { Text = x.ToString(), Value = x.ID.ToString() }).ToList();
                 return View(model);
@@ -184,8 +185,9 @@ namespace WebCompanyAlpha.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                model.Error = ex.Message;
                 return View(model);
             }
         }
@@ -292,8 +294,9 @@ namespace WebCompanyAlpha.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                model.Error = ex.Message;
                 return View(model);
             }
         }
@@ -314,8 +317,9 @@ namespace WebCompanyAlpha.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
+                model.Error = ex.Message;
                 return View(model);
             }
         }

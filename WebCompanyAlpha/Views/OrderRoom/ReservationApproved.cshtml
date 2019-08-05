@@ -52,6 +52,12 @@
 
     </dl>
 </div>
+
+@if (Model.Error?.Length > 0)
+{
+    <p class="text-warning">@Model.Error</p>
+}
+
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
